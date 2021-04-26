@@ -1,1 +1,1 @@
-# dotgraph
+# dotscale
