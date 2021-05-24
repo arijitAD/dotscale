@@ -9,16 +9,6 @@ import (
 	"github.com/centrifuge/go-substrate-rpc-client/scale"
 )
 
-//export TestFFI
-func TestFFI() *C.char {
-	return C.CString("World")
-}
-
-//export Multiplication
-func Multiplication(a uint32, b uint32) uint32 {
-	return a * b
-}
-
 //export EncodeString
 func EncodeString(str *C.char) *C.char {
 	var buf = bytes.Buffer{}
