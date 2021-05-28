@@ -91,4 +91,54 @@ fn main() {
         ])
         .status()
         .unwrap();
+    Command::new("go")
+        .args(&[
+            "build",
+            "-o",
+            &format!("target/debug/libEncodeVecU8.{}", ext),
+            "-buildmode=c-shared",
+            "src/encode.go",
+        ])
+        .status()
+        .unwrap();
+    Command::new("go")
+        .args(&[
+            "build",
+            "-o",
+            &format!("target/debug/libDecodeVecU8.{}", ext),
+            "-buildmode=c-shared",
+            "src/encode.go",
+        ])
+        .status()
+        .unwrap();
+    Command::new("go")
+        .args(&[
+            "build",
+            "-o",
+            &format!("target/debug/libEncodeOptionBool.{}", ext),
+            "-buildmode=c-shared",
+            "src/encode.go",
+        ])
+        .status()
+        .unwrap();
+    Command::new("go")
+        .args(&[
+            "build",
+            "-o",
+            &format!("target/debug/libEncodeOptional.{}", ext),
+            "-buildmode=c-shared",
+            "src/encode.go",
+        ])
+        .status()
+        .unwrap();
+    Command::new("go")
+        .args(&[
+            "build",
+            "-o",
+            &format!("target/debug/libDecodeOptional.{}", ext),
+            "-buildmode=c-shared",
+            "src/encode.go",
+        ])
+        .status()
+        .unwrap();
 }
