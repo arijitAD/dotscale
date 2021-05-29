@@ -11,12 +11,13 @@ jobs:
         platform: [ubuntu-latest]
     runs-on: ${{ matrix.platform }}
     steps:
-      - name: Run scale codec test
-      - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-      - run: make test
+      - uses: actions/checkout@v2
+
+      - name: Run scale codec test
+        run: make test
 
       - name: Deploy scale codec report.
         uses: peaceiris/actions-gh-pages@v3
