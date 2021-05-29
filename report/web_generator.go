@@ -115,7 +115,7 @@ func generateHtml(inFile, outFile string) {
 		lastRes.Passed,
 		lastRes.Failed,
 		lastRes.ExecTime,
-  )
+	)
 
 	testTable := `
 	  <div class="col-sm-8 col-md-8 col-lg-8">

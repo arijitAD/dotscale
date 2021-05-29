@@ -27,7 +27,7 @@ func EncodeString(str *C.char) (*C.char, C.int) {
 }
 
 //export DecodeString
-func DecodeString(data *C.char,length C.int) (*C.char, C.int) {
+func DecodeString(data *C.char, length C.int) (*C.char, C.int) {
 	goSLice := C.GoBytes(unsafe.Pointer(data), length)
 	r := bytes.NewReader(goSLice)
 	var resp string
@@ -36,21 +36,21 @@ func DecodeString(data *C.char,length C.int) (*C.char, C.int) {
 		panic(err)
 	}
 
-	return C.CString(resp),C.int(len(resp))
+	return C.CString(resp), C.int(len(resp))
 }
 
 //export EncodeI8
-func EncodeI8(n C.schar) (*C.char,C.int) {
+func EncodeI8(n C.schar) (*C.char, C.int) {
 	var buf = bytes.Buffer{}
 	err := scale.NewEncoder(&buf).Encode(n)
 	if err != nil {
 		panic(err)
 	}
-	return C.CString(buf.String()),C.int(buf.Len())
+	return C.CString(buf.String()), C.int(buf.Len())
 }
 
 //export DecodeI8
-func DecodeI8(data *C.char,length C.int) C.schar {
+func DecodeI8(data *C.char, length C.int) C.schar {
 	goSLice := C.GoBytes(unsafe.Pointer(data), length)
 	r := bytes.NewReader(goSLice)
 	var resp int8
@@ -122,7 +122,7 @@ func EncodeVecU8(arr []uint8) (*C.char, C.int) {
 }
 
 //export DecodeVecU8
-func DecodeVecU8(data *C.char, length C.int) (unsafe.Pointer,C.int) {
+func DecodeVecU8(data *C.char, length C.int) (unsafe.Pointer, C.int) {
 	goSLice := C.GoBytes(unsafe.Pointer(data), length)
 	r := bytes.NewReader(goSLice)
 	var arr []uint8
