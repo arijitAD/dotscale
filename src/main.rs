@@ -18,6 +18,8 @@ use std::{slice, str};
     "encodeOptionBool",
     "encodeOptional"
 )]
+
+#[allow(improper_ctypes)]
 extern "C" {
     pub fn EncodeString(s: *const c_char) -> *const c_char;
     pub fn DecodeString(s: *const c_char) -> *const c_char;

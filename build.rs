@@ -17,7 +17,7 @@ fn main() {
             "-o",
             &format!("target/debug/libEncodeString.{}", ext),
             "-buildmode=c-shared",
-            "src/encode.go",
+            "src/scale.go",
         ])
         .status()
         .unwrap();
@@ -27,7 +27,7 @@ fn main() {
             "-o",
             &format!("target/debug/libDecodeString.{}", ext),
             "-buildmode=c-shared",
-            "src/encode.go",
+            "src/scale.go",
         ])
         .status()
         .unwrap();
@@ -37,7 +37,7 @@ fn main() {
             "-o",
             &format!("target/debug/libEncodeI8.{}", ext),
             "-buildmode=c-shared",
-            "src/encode.go",
+            "src/scale.go",
         ])
         .status()
         .unwrap();
@@ -47,7 +47,7 @@ fn main() {
             "-o",
             &format!("target/debug/libDecodeI8.{}", ext),
             "-buildmode=c-shared",
-            "src/encode.go",
+            "src/scale.go",
         ])
         .status()
         .unwrap();
@@ -57,7 +57,7 @@ fn main() {
             "-o",
             &format!("target/debug/libEncodeU16.{}", ext),
             "-buildmode=c-shared",
-            "src/encode.go",
+            "src/scale.go",
         ])
         .status()
         .unwrap();
@@ -67,7 +67,7 @@ fn main() {
             "-o",
             &format!("target/debug/libDecodeU16.{}", ext),
             "-buildmode=c-shared",
-            "src/encode.go",
+            "src/scale.go",
         ])
         .status()
         .unwrap();
@@ -77,7 +77,7 @@ fn main() {
             "-o",
             &format!("target/debug/libEncodeU32.{}", ext),
             "-buildmode=c-shared",
-            "src/encode.go",
+            "src/scale.go",
         ])
         .status()
         .unwrap();
@@ -87,7 +87,7 @@ fn main() {
             "-o",
             &format!("target/debug/libDecodeU32.{}", ext),
             "-buildmode=c-shared",
-            "src/encode.go",
+            "src/scale.go",
         ])
         .status()
         .unwrap();
@@ -97,7 +97,7 @@ fn main() {
             "-o",
             &format!("target/debug/libEncodeVecU8.{}", ext),
             "-buildmode=c-shared",
-            "src/encode.go",
+            "src/scale.go",
         ])
         .status()
         .unwrap();
@@ -107,7 +107,7 @@ fn main() {
             "-o",
             &format!("target/debug/libDecodeVecU8.{}", ext),
             "-buildmode=c-shared",
-            "src/encode.go",
+            "src/scale.go",
         ])
         .status()
         .unwrap();
@@ -117,7 +117,7 @@ fn main() {
             "-o",
             &format!("target/debug/libEncodeOptionBool.{}", ext),
             "-buildmode=c-shared",
-            "src/encode.go",
+            "src/scale.go",
         ])
         .status()
         .unwrap();
@@ -127,7 +127,7 @@ fn main() {
             "-o",
             &format!("target/debug/libEncodeOptional.{}", ext),
             "-buildmode=c-shared",
-            "src/encode.go",
+            "src/scale.go",
         ])
         .status()
         .unwrap();
@@ -137,7 +137,7 @@ fn main() {
             "-o",
             &format!("target/debug/libDecodeOptional.{}", ext),
             "-buildmode=c-shared",
-            "src/encode.go",
+            "src/scale.go",
         ])
         .status()
         .unwrap();

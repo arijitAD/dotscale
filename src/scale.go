@@ -9,10 +9,15 @@ import (
 	"github.com/centrifuge/go-substrate-rpc-client/types"
 )
 
+func assert(pred bool) {
+	if !pred {
+		panic("assertion failed")
+	}
+}
+
 //export EncodeString
 func EncodeString(str *C.char) *C.char {
 	var buf = bytes.Buffer{}
-
 	err := scale.NewEncoder(&buf).Encode(C.GoString(str))
 	if err != nil {
 		panic(err)
@@ -129,6 +134,8 @@ func DecodeVecU8(data *C.char, length C.int) unsafe.Pointer {
 
 //export EncodeOptionBool
 func EncodeOptionBool(hasValue C.uchar, value C.uchar) (*C.char, C.uint) {
+	assert(hasValue <= 1)
+
 	var optBool types.OptionBool
 	if hasValue == 0 {
 		optBool = types.NewOptionBoolEmpty()
@@ -165,21 +172,21 @@ func DecodeOptionBool(data *C.char, len C.int) (C.uchar, C.uchar) {
 
 	has, value := optBool.Unwrap()
 	if !has {
+		assert(value == false)
 		return C.uchar(0), C.uchar(0)
-	} else {
-		switch value {
-		case true:
-			return C.uchar(1),C.uchar(1)
-		case false:
-			return C.uchar(1),C.uchar(2)
-		}
 	}
 
-	return C.uchar(0),C.uchar(1)
+	if value {
+		return C.uchar(1), C.uchar(1)
+	}
+
+	return C.uchar(1), C.uchar(2)
 }
 
 //export EncodeOptional
-func EncodeOptional(hasValue C.uchar, value C.uchar)(*C.char, C.uint){
+func EncodeOptional(hasValue C.uchar, value C.uchar) (*C.char, C.uint) {
+	assert(hasValue <= 1)
+
 	var optBytes types.OptionU8
 	if hasValue == 0 {
 		optBytes = types.NewOptionU8Empty()
@@ -211,20 +218,11 @@ func DecodeOptional(data *C.char, len C.int) (C.uchar, C.uchar) {
 
 	has, value := optByte.Unwrap()
 	if !has {
+		assert(value == 0)
 		return C.uchar(0), C.uchar(0)
-	} else {
-		return C.uchar(1),C.uchar(value)
 	}
+
+	return C.uchar(1), C.uchar(value)
 }
 
-
-func main() {
-
-	////Test encode decode int8
-	//char := EncodeU32(16777215,)
-	//fmt.Println("EncodeU32", char)
-	//
-	//ch := DecodeU32(char)
-	//fmt.Println("DecodeU32", ch)
-
-}
+func main() {}
