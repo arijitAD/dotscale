@@ -1,8 +1,7 @@
 extern crate libc;
 use libc::{c_char, c_int, c_schar, c_uchar, c_uint, c_ushort};
 use parity_scale_codec::{Decode, Encode, OptionBool};
-use std::ffi::{CStr, CString};
-use std::{slice, str};
+use std::slice;
 
 #[link(
     name = "encodeString",
@@ -18,31 +17,30 @@ use std::{slice, str};
     "encodeOptionBool",
     "encodeOptional"
 )]
-
 #[allow(improper_ctypes)]
 extern "C" {
-    pub fn EncodeString(s: *const c_char) -> *const c_char;
-    pub fn DecodeString(s: *const c_char) -> *const c_char;
+    pub fn EncodeString(data: *const c_char) -> (*const c_char, c_int);
+    pub fn DecodeString(data: *const c_char, len: c_int) -> (*const c_char, c_int);
 
-    pub fn EncodeI8(a: c_schar) -> *const c_char;
-    pub fn DecodeI8(s: *const c_char) -> c_char;
+    pub fn EncodeI8(data: c_schar) -> (*const c_char, c_int);
+    pub fn DecodeI8(data: *const c_char, len: c_int) -> c_char;
 
-    pub fn EncodeU16(a: c_ushort) -> (*const c_char, c_int);
-    pub fn DecodeU16(s: *const c_char, len: c_int) -> c_ushort;
+    pub fn EncodeU16(data: c_ushort) -> (*const c_char, c_int);
+    pub fn DecodeU16(data: *const c_char, len: c_int) -> c_ushort;
 
-    pub fn EncodeU32(a: c_uint) -> (*const c_char, c_int);
-    pub fn DecodeU32(s: *const c_char, len: c_int) -> c_uint;
+    pub fn EncodeU32(data: c_uint) -> (*const c_char, c_int);
+    pub fn DecodeU32(data: *const c_char, len: c_int) -> c_uint;
 
-    pub fn EncodeVecU8(a: Vec<u8>, len: c_int) -> (*const c_char, c_uint);
-    pub fn DecodeVecU8(a: *const c_char, len: c_int) -> *const c_char;
+    pub fn EncodeVecU8(data: Vec<u8>, len: c_int) -> (*const c_char, c_uint);
+    pub fn DecodeVecU8(data: *const c_char, len: c_int) -> (*const c_char, c_int);
 
-    pub fn EncodeResult(a: Result<u8, bool>) -> (*const c_char, c_uint);
+    pub fn EncodeResult(data: Result<u8, bool>) -> (*const c_char, c_uint);
 
     pub fn EncodeOptionBool(hasValue: c_uchar, value: c_uchar) -> (*const c_char, c_uchar);
-    pub fn DecodeOptionBool(a: *const c_char, len: c_int) -> (c_uchar, c_uchar);
+    pub fn DecodeOptionBool(data: *const c_char, len: c_int) -> (c_uchar, c_uchar);
 
     pub fn EncodeOptional(hasValue: c_uchar, value: c_uchar) -> (*const c_char, c_uchar);
-    pub fn DecodeOptional(a: *const c_char, len: c_int) -> (c_uchar, c_uchar);
+    pub fn DecodeOptional(data: *const c_char, len: c_int) -> (c_uchar, c_uchar);
 }
 
 fn main() {}
@@ -162,12 +160,13 @@ mod tests {
         let result = unsafe { slice::from_raw_parts(resp as *const u8, len as usize) };
         assert_eq!(exp_enc, result);
 
-        let dec_resp =
+        let (dec_resp, len) =
             unsafe { DecodeVecU8(result.as_ptr() as *const c_char, result.len() as c_int) };
 
-        let c_str: &CStr = unsafe { CStr::from_ptr(dec_resp) };
-        let str_slice: &str = c_str.to_str().unwrap();
-        assert_eq!(exp_dec, str_slice.as_bytes());
+        let result = unsafe { slice::from_raw_parts(dec_resp as *const u8, len as usize) };
+
+        let result_vec = String::from_utf8(result.to_vec()).unwrap();
+        assert_eq!(exp_dec, result_vec.as_bytes());
     }
 
     #[test]
@@ -177,16 +176,15 @@ mod tests {
         let exp_enc = val.encode();
         let exp_dec = <String>::decode(&mut &exp_enc[..]).unwrap();
 
-        let c_str = CString::new(val).expect("CString::new failed");
-        let enc_result = unsafe { EncodeString(c_str.as_ptr()) };
-        let enc_buf_name = unsafe { CStr::from_ptr(enc_result).to_bytes() };
-        assert_eq!(exp_enc, enc_buf_name);
+        let (enc_result, len) = unsafe { EncodeString(val.as_ptr() as *const c_char) };
 
-        let dec_resp = unsafe { DecodeString(enc_result) };
+        let result = unsafe { slice::from_raw_parts(enc_result as *const u8, len as usize) };
+        assert_eq!(exp_enc, result);
 
-        let buf_name = unsafe { CStr::from_ptr(dec_resp).to_bytes() };
+        let (dec_resp, len) = unsafe { DecodeString(enc_result as *const c_char, len as c_int) };
+
+        let buf_name = unsafe { slice::from_raw_parts(dec_resp as *const u8, len as usize) };
         let str_name = String::from_utf8(buf_name.to_vec()).unwrap();
-
         assert_eq!(exp_dec, str_name);
     }
 
@@ -197,12 +195,12 @@ mod tests {
         let exp_enc = expected.encode();
         let exp_dec: i8 = Decode::decode(&mut &exp_enc[..]).unwrap();
 
-        let enc_result = unsafe { EncodeI8(expected) };
+        let (enc_result, len) = unsafe { EncodeI8(expected) };
 
-        let enc_buf_name = unsafe { CStr::from_ptr(enc_result).to_bytes() };
-        assert_eq!(exp_enc, enc_buf_name);
+        let result = unsafe { slice::from_raw_parts(enc_result as *const u8, len as usize) };
+        assert_eq!(exp_enc, result);
 
-        let dec_resp = unsafe { DecodeI8(enc_result) };
+        let dec_resp = unsafe { DecodeI8(enc_result, result.len() as c_int) };
 
         assert_eq!(exp_dec, dec_resp);
     }

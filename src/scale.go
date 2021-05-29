@@ -16,41 +16,43 @@ func assert(pred bool) {
 }
 
 //export EncodeString
-func EncodeString(str *C.char) *C.char {
+func EncodeString(str *C.char) (*C.char, C.int) {
 	var buf = bytes.Buffer{}
 	err := scale.NewEncoder(&buf).Encode(C.GoString(str))
 	if err != nil {
 		panic(err)
 	}
 
-	return C.CString(buf.String())
+	return C.CString(buf.String()), C.int(buf.Len())
 }
 
 //export DecodeString
-func DecodeString(data *C.char) *C.char {
-	r := bytes.NewBufferString(C.GoString(data))
+func DecodeString(data *C.char,length C.int) (*C.char, C.int) {
+	goSLice := C.GoBytes(unsafe.Pointer(data), length)
+	r := bytes.NewReader(goSLice)
 	var resp string
 	err := scale.NewDecoder(r).Decode(&resp)
 	if err != nil {
 		panic(err)
 	}
 
-	return C.CString(resp)
+	return C.CString(resp),C.int(len(resp))
 }
 
 //export EncodeI8
-func EncodeI8(n C.schar) *C.char {
+func EncodeI8(n C.schar) (*C.char,C.int) {
 	var buf = bytes.Buffer{}
 	err := scale.NewEncoder(&buf).Encode(n)
 	if err != nil {
 		panic(err)
 	}
-	return C.CString(buf.String())
+	return C.CString(buf.String()),C.int(buf.Len())
 }
 
 //export DecodeI8
-func DecodeI8(data *C.char) C.schar {
-	r := bytes.NewBufferString(C.GoString(data))
+func DecodeI8(data *C.char,length C.int) C.schar {
+	goSLice := C.GoBytes(unsafe.Pointer(data), length)
+	r := bytes.NewReader(goSLice)
 	var resp int8
 	err := scale.NewDecoder(r).Decode(&resp)
 	if err != nil {
@@ -61,14 +63,14 @@ func DecodeI8(data *C.char) C.schar {
 }
 
 //export EncodeU16
-func EncodeU16(n C.ushort) (*C.char, C.uint) {
+func EncodeU16(n C.ushort) (*C.char, C.int) {
 	var buf = &bytes.Buffer{}
 	err := scale.NewEncoder(buf).Encode(n)
 	if err != nil {
 		panic(err)
 	}
 
-	return C.CString(buf.String()), C.uint(buf.Len())
+	return C.CString(buf.String()), C.int(buf.Len())
 }
 
 //export DecodeU16
@@ -85,14 +87,14 @@ func DecodeU16(data *C.char, len C.int) C.uint {
 }
 
 //export EncodeU32
-func EncodeU32(n C.uint) (*C.char, C.uint) {
+func EncodeU32(n C.uint) (*C.char, C.int) {
 	var buf = &bytes.Buffer{}
 	err := scale.NewEncoder(buf).Encode(n)
 	if err != nil {
 		panic(err)
 	}
 
-	return C.CString(buf.String()), C.uint(buf.Len())
+	return C.CString(buf.String()), C.int(buf.Len())
 }
 
 //export DecodeU32
@@ -120,7 +122,7 @@ func EncodeVecU8(arr []uint8) (*C.char, C.int) {
 }
 
 //export DecodeVecU8
-func DecodeVecU8(data *C.char, length C.int) unsafe.Pointer {
+func DecodeVecU8(data *C.char, length C.int) (unsafe.Pointer,C.int) {
 	goSLice := C.GoBytes(unsafe.Pointer(data), length)
 	r := bytes.NewReader(goSLice)
 	var arr []uint8
@@ -129,11 +131,11 @@ func DecodeVecU8(data *C.char, length C.int) unsafe.Pointer {
 		panic(err)
 	}
 
-	return C.CBytes(arr)
+	return C.CBytes(arr), C.int(len(arr))
 }
 
 //export EncodeOptionBool
-func EncodeOptionBool(hasValue C.uchar, value C.uchar) (*C.char, C.uint) {
+func EncodeOptionBool(hasValue C.uchar, value C.uchar) (*C.char, C.int) {
 	assert(hasValue <= 1)
 
 	var optBool types.OptionBool
@@ -155,7 +157,7 @@ func EncodeOptionBool(hasValue C.uchar, value C.uchar) (*C.char, C.uint) {
 		panic(err)
 	}
 
-	return C.CString(buf.String()), C.uint(buf.Len())
+	return C.CString(buf.String()), C.int(buf.Len())
 }
 
 //export DecodeOptionBool
@@ -184,7 +186,7 @@ func DecodeOptionBool(data *C.char, len C.int) (C.uchar, C.uchar) {
 }
 
 //export EncodeOptional
-func EncodeOptional(hasValue C.uchar, value C.uchar) (*C.char, C.uint) {
+func EncodeOptional(hasValue C.uchar, value C.uchar) (*C.char, C.int) {
 	assert(hasValue <= 1)
 
 	var optBytes types.OptionU8
@@ -201,7 +203,7 @@ func EncodeOptional(hasValue C.uchar, value C.uchar) (*C.char, C.uint) {
 		panic(err)
 	}
 
-	return C.CString(buf.String()), C.uint(buf.Len())
+	return C.CString(buf.String()), C.int(buf.Len())
 }
 
 //export DecodeOptional
