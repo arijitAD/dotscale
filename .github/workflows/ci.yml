@@ -1,0 +1,29 @@
+on: [pull_request]
+name: Test and Deploy report
+env:
+  GO111MODULE: on
+
+jobs:
+  unit-tests:
+    strategy:
+      matrix:
+        go-version: [1.16.x]
+        platform: [ubuntu-latest]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+          components: rustfmt, clippy
+
+      - name: Run scale codec test
+        run: make test
+
+      - name: Deploy scale codec report.
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./report/web/
