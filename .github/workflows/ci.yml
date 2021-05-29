@@ -1,5 +1,8 @@
-on: [pull_request]
 name: Test and Deploy report
+on:
+  push:
+    branches:
+      - main
 env:
   GO111MODULE: on
 
