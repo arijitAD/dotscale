@@ -1,0 +1,135 @@
+
+		<!DOCTYPE html>
+		<html lang="en">
+		<head>
+		  <title>SCALE Codec Compatibility Report
+		</title>
+		  <meta charset="utf-8">
+		  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		</head>
+	 
+		<body>
+		<div class="container">
+		  <h2>SCALE Codec Compatibility Report</h2>
+		
+	  <div class="col-sm-4 col-md-4 col-lg-4">
+	  <table class="table table-striped table-responsive-md">
+		<thead>
+		  <tr>
+			<th>Library Details</th>
+			<th></th>
+			<th></th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td>Scale Implementation</td>
+			<td colspan="2"><a href="https://github.com/centrifuge/go-substrate-rpc-client/blob/master/scale/codec.go">go-substrate-rpc-client</a></td>
+		  </tr>
+		  <tr>
+			<td>Total test count:</td>
+			<td colspan="2">10</td>
+		  </tr>
+		  <tr>
+			<td>Passed</td>
+			<td colspan="2">9</td>
+		  </tr>
+		  <tr>
+			<td>Failed</td>
+			<td colspan="2">1</td>
+		  </tr>
+		  <tr>
+			<td>Execution Time (in secs)</td>
+			<td colspan="2">0.0019976280</td>
+		  </tr>
+		</tbody>
+	  </table>
+	  </div> <! -- Details Table -->
+		
+	  <div class="col-sm-8 col-md-8 col-lg-8">
+	  <table class="table table-responsive-md">
+		<thead>
+		  <tr>
+			<th scope="col">#</th>
+			<th>Test Name</th>
+			<th>Status</th>
+			<th>Execution Time (in secs)</th>
+		  </tr>
+		</thead>
+		<tbody>
+				<tr class="success">
+			   	<th scope="row">1</th>
+			   	<td>tests::option_bool_false</td>
+				<td><span class="badge badge-pill badge-success">Success</span></td>
+			   	<td>0.0008435900</td>
+				</tr>
+				
+				<tr class="success">
+			   	<th scope="row">2</th>
+			   	<td>tests::i8_works</td>
+				<td><span class="badge badge-pill badge-success">Success</span></td>
+			   	<td>0.0009361240</td>
+				</tr>
+				
+				<tr class="success">
+			   	<th scope="row">3</th>
+			   	<td>tests::option_bool_none</td>
+				<td><span class="badge badge-pill badge-success">Success</span></td>
+			   	<td>0.0009162940</td>
+				</tr>
+				
+				<tr class="success">
+			   	<th scope="row">4</th>
+			   	<td>tests::option_bool_true</td>
+				<td><span class="badge badge-pill badge-success">Success</span></td>
+			   	<td>0.0000248920</td>
+				</tr>
+				
+				<tr class="success">
+			   	<th scope="row">5</th>
+			   	<td>tests::optional_some</td>
+				<td><span class="badge badge-pill badge-success">Success</span></td>
+			   	<td>0.0000285500</td>
+				</tr>
+				
+				<tr class="success">
+			   	<th scope="row">6</th>
+			   	<td>tests::optional_none</td>
+				<td><span class="badge badge-pill badge-success">Success</span></td>
+			   	<td>0.0001936800</td>
+				</tr>
+				
+				<tr class="danger">
+			   	<th scope="row">7</th>
+			   	<td>tests::string_works</td>
+				<td><span class="badge badge-pill badge-danger">Failed</span></td>
+			   	<td>0.0001767140</td>
+				</tr>
+				
+				<tr class="success">
+			   	<th scope="row">8</th>
+			   	<td>tests::u16_works</td>
+				<td><span class="badge badge-pill badge-success">Success</span></td>
+			   	<td>0.0000390870</td>
+				</tr>
+				
+				<tr class="success">
+			   	<th scope="row">9</th>
+			   	<td>tests::u32_works</td>
+				<td><span class="badge badge-pill badge-success">Success</span></td>
+			   	<td>0.0000274980</td>
+				</tr>
+				
+				<tr class="success">
+			   	<th scope="row">10</th>
+			   	<td>tests::vec_u8_works</td>
+				<td><span class="badge badge-pill badge-success">Success</span></td>
+			   	<td>0.0000549920</td>
+				</tr>
+				</tbody></table></div> <! -- Test Table -->
+		</div>
+		</body>
+		</html>
+	
