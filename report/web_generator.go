@@ -164,7 +164,7 @@ func generateHtml(inFile, outFile string) {
 	bodyHtml := fmt.Sprintf(`
 		<body>
 		<div class="container">
-		  <h2>SCALE Codec Compatibility Report</h2>
+		  <h2 class="text-center">SCALE Codec Compatibility Report</h2><br>
 		%s <! -- Details Table -->
 		%s <! -- Test Table -->
 		</div>
