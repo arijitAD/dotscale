@@ -1,6 +1,8 @@
 # Dotscale - SCALE Codec Comparator
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/arijitAD/dotscale/Test%20and%20Deploy%20report?label=SCALE%20Codec%20Compatibility)](https://arijitad.github.io/dotscale/)
+
+<a href="https://arijitad.github.io/dotscale/" target="_blank">[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/arijitAD/dotscale/Test%20and%20Deploy%20report?label=SCALE%20Codec%20Compatibility)](https://arijitad.github.io/dotscale/)</a>
+
 
 Dotscale compares a implementation of SCALE Codec with the [reference implementation](https://github.com/paritytech/parity-scale-codec) that is written in Rust and maintained by Parity Technologies. It provides (some) assurance that the implementation in a given language is safe & sound to use.
 
